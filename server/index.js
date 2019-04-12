@@ -14,6 +14,21 @@ server.get('/games', (req,res) => {
         .catch(err => res.status(500).json(err));
 })
 
+server.get('/games/:id', (req,res) => {
+    const id = req.params.id
+
+    db('games')
+        .where({id})
+        .then(game => {
+            if(game.length){
+                res.status(200).json(game)
+            }else{
+                res.status(404).json({msg: "game not found"})
+            }
+        })
+        .catch(err => res.status(500).json(err))
+})
+
 server.post('/games', (req,res) => {
     db('games')
         .insert(req.body)

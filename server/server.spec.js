@@ -27,6 +27,30 @@ describe('games', () => {
                 })  
                 .catch();
         })
+        describe('/games/:id GET', () => {
+            it('should return a 404 if the game dosnt exists', () => {
+                return request(server)
+                    .get('/games/20')
+                    .then(response => {
+                    expect(response.status).toBe(404);
+                    })  
+                    .catch();
+            })
+            it('should return a 200 if game exists', () => {
+                
+                request(server)
+                    .post('/games')
+                    .send({title: "game 4", genre: 'fantasy', releaseYear: 2015})
+                    .then(response => {
+                        request(server)
+                            .get('/games/1')
+                            .then(response => {
+                                expect(response.status).toBe(200);
+                            })  
+                    })
+                    
+            })
+        })
     })
 
     describe('/games POST', () => {
